@@ -20,12 +20,13 @@ def crawl():
         url = url_frontier.pop()
 
         # fetch html
-        html = html_fetcher.fetch(url)
-
-        if html is None:
+        html_content = html_fetcher.fetch(url)
+        
+        if html_content is None:
             continue
 
-        # TODO: parse html
+        # parse html
+        parsed_content = html_parser.parse(html_content)
 
         # TODO: detect content duplication
 
