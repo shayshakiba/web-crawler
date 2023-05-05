@@ -1,4 +1,5 @@
 import logging
+import sys
 
 import duplicate_detector
 import html_fetcher
@@ -10,9 +11,27 @@ import url_frontier
 logging.basicConfig(level=logging.INFO)
 
 
-def initiate_url_frontier():
-    pass
-    # TODO: implement
+SEED_URLS_PATH = 'data/seed_urls.txt'
+
+
+def initiate_url_frontier(seed_urls_file_path):
+    with open(seed_urls_file_path, 'r') as input_file:
+        for line in input_file:
+            url = line.strip()
+
+            process_url(url)
+
+
+def process_url(url: str) -> None:
+    # check url duplication
+    if duplicate_detector.is_duplicate_url(url):
+        return
+
+    # save url to history
+    duplicate_detector.save_url(url)
+
+    # add to frontier
+    url_frontier.add(url)
 
 
 def crawl():
@@ -40,22 +59,15 @@ def crawl():
 
         # TODO: save page to page repository
 
-        # extract and process links
+        # extract links
         links = html_parser.extract_links(url, html_content)
 
+        # process links
         for link in links:
-            # check url duplication
-            if duplicate_detector.is_duplicate_url(link):
-                continue
-
-            # save url to history
-            duplicate_detector.save_url(link)
-
-            # add to frontier
-            url_frontier.add(link)
+            process_url(link)
 
 
 if __name__ == '__main__':
-    initiate_url_frontier()
+    initiate_url_frontier(sys.argv[1])
 
     crawl()
