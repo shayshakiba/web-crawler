@@ -19,7 +19,11 @@ def crawl():
     while not url_frontier.empty():
         url = url_frontier.pop()
 
-        # TODO: fetch html
+        # fetch html
+        html = html_fetcher.fetch(url)
+
+        if html is None:
+            continue
 
         # TODO: parse html
 
