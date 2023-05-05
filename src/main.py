@@ -21,22 +21,38 @@ def crawl():
 
         # fetch html
         html_content = html_fetcher.fetch(url)
-        
+
         if html_content is None:
             continue
 
         # parse html
         parsed_content = html_parser.parse(html_content)
 
-        # TODO: detect content duplication
+        if parsed_content is None:
+            continue
 
-        # TODO: save content to history
+        # check content duplication
+        if duplicate_detector.is_duplicate_content(parsed_content):
+            continue
+
+        # save content to history
+        duplicate_detector.save_content(parsed_content)
 
         # TODO: save page to page repository
 
-        # TODO: extract links
+        # extract and process links
+        links = html_parser.extract_links(url, html_content)
 
-        # TODO: for each exctracted link: check duplication, save to history, add to frontier
+        for link in links:
+            # check url duplication
+            if duplicate_detector.is_duplicate_url(link):
+                continue
+
+            # save url to history
+            duplicate_detector.save_url(link)
+
+            # add to frontier
+            url_frontier.add(link)
 
 
 if __name__ == '__main__':
