@@ -1,4 +1,6 @@
-"""A component for storing discovered URLs."""
+"""A component for storing discovered URLs.
+
+This module acts as a singleton resource."""
 
 
 _url_history: set[str] = set()

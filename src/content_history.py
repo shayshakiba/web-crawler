@@ -1,6 +1,6 @@
 """A component for storing discovered content.
 
-This module stores the resulting hash values produced by MD5 hash algorithm.
+This module acts as a singleton resource which stores the hash values of the visited content.
 """
 
 
