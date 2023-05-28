@@ -1,8 +1,8 @@
 """Handling history and duplicate detection for URLs and content."""
 
 
-import url_history
 import content_history
+import url_history
 from html_parser import ParsedContent
 
 

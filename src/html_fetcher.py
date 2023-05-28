@@ -2,49 +2,54 @@
 
 
 import logging
+
 import requests
 
+from page import Page
 
-logger = logging.getLogger('fetcher')
+
+logger = logging.getLogger('html fetcher')
 
 
-def fetch(url: str) -> str | None:
+def fetch(page: Page) -> str | None:
     """Fetch the page content.
 
     Args:
-        url (str): The given URL.
+        page (Page): The given page.
+            It should contain an initialized URL.
 
     Returns:
         str | None: The HTML content.
-            None if the content-type isn't 'text/html' or the request is unsuccessful.
+            None if the fetch isn't successful.
     """
-    if not _check_content_type(url):
+    if not _check_content_type(page):
         return None
 
     try:
-        response = requests.get(url, allow_redirects=True)
+        response = requests.get(page.url, allow_redirects=True)
     except Exception:
-        logger.error(f"'{url}' can't be fetched.")
+        logger.error(f"'{page.url}' can't be fetched.")
 
         return None
 
     return response.text
 
 
-def _check_content_type(url: str) -> bool:
-    """Check the content type.
+def _check_content_type(page: Page) -> bool:
+    """Check the page content type.
 
     Args:
-        url (str): The given URL.
+        page (Page): The given page.
+            It should contain an initialized URL.
 
     Returns:
         bool: True if the content type is 'text/html'.
     """
     try:
-        response = requests.head(url, allow_redirects=True)
+        response = requests.head(page.url, allow_redirects=True)
         content_type = response.headers['content-type']
     except Exception:
-        logger.error(f"'{url}' header can't be fetched.")
+        logger.error(f"'{page.url}' header can't be fetched.")
 
         return False
 
