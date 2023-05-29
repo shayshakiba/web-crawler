@@ -11,6 +11,13 @@ from collections import deque
 _url_frontier: deque[str] = deque()
 
 
+def initialize(file_path: str) -> None:
+    with open(file_path, 'r') as input_file:
+        for line in input_file:
+            url = line.strip()
+            add(url)
+
+
 def empty() -> bool:
     return len(_url_frontier) == 0
 
