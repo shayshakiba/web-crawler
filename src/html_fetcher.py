@@ -15,7 +15,7 @@ def fetch(page: Page) -> str | None:
     """Fetch the page content.
 
     Args:
-        page (Page): The given page.
+        page (Page): The page.
             It should contain an initialized URL.
 
     Returns:
@@ -39,7 +39,7 @@ def _check_content_type(page: Page) -> bool:
     """Check the page content type.
 
     Args:
-        page (Page): The given page.
+        page (Page): The page.
             It should contain an initialized URL.
 
     Returns:

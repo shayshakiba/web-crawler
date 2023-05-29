@@ -7,12 +7,12 @@ from page import Page
 
 
 def have_duplicate_url(page: Page) -> bool:
-    """Check if the smae URL has been discovered before.
+    """Check if the same URL has been discovered before.
 
     If the URL isn't a duplicate, it will be added to the URL history as a side effect.
 
     Args:
-        page (Page): The given page.
+        page (Page): The page.
             It should contain an initialized URL.
 
     Returns:
@@ -32,7 +32,7 @@ def have_duplicate_content(page: Page) -> bool:
     If the content isn't a duplicate, it will be added to the content history as a side effect.
 
     Args:
-        page (Page): The given page.
+        page (Page): The page.
             It should contain an initialized parsed content.
 
     Returns:

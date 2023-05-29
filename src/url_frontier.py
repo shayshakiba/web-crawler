@@ -1,7 +1,7 @@
 """A component for handling URLs eligible to be crawled.
 
 This module acts as a singleton resource which stores the uncrawled URLs.
-The URLs are stored in a FIFO queue, resulting in a breadth-frist traversal.
+The URLs are stored in a FIFO queue, resulting in a breadth-first traversal.
 """
 
 
