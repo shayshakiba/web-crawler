@@ -1,73 +1,65 @@
 import logging
-import sys
 
 import duplicate_detector
 import html_fetcher
 import html_parser
 import page_repository
+import url_filter
 import url_frontier
+from page import Page
 
 
-logging.basicConfig(level=logging.INFO)
+SEED_URLS_FILE_PATH = 'data/seed_urls.txt'
+DOMAIN_FILTERS_FILE_PATH = 'data/domain_filters.txt'
+
+LOG_FILE_PATH = 'data/log.txt'
+LOG_LEVEL = logging.INFO
 
 
-SEED_URLS_PATH = 'data/seed_urls.txt'
-
-
-def initiate_url_frontier(seed_urls_file_path):
-    with open(seed_urls_file_path, 'r') as input_file:
-        for line in input_file:
-            url = line.strip()
-
-            process_url(url)
-
-
-def process_url(url: str) -> None:
-    # check url duplication
-    if duplicate_detector.is_duplicate_url(url):
-        return
-
-    # save url to history
-    duplicate_detector.save_url(url)
-
-    # add to frontier
-    url_frontier.add(url)
+logging.basicConfig(level=LOG_LEVEL, filename=LOG_FILE_PATH, filemode='w')
 
 
 def crawl():
-    while not url_frontier.empty():
+    while page_repository.has_capacity() and not url_frontier.empty():
         url = url_frontier.pop()
+        page = Page(url)
 
         # fetch html
-        html_content = html_fetcher.fetch(url)
-
+        html_content = html_fetcher.fetch(page)
         if html_content is None:
             continue
 
-        # parse html
-        parsed_content = html_parser.parse(html_content)
+        page.html = html_content
 
+        # parse html
+        parsed_content = html_parser.parse(page)
         if parsed_content is None:
             continue
 
-        # check content duplication
-        if duplicate_detector.is_duplicate_content(parsed_content):
+        page.parsed_content = parsed_content
+
+        # check for duplication
+        if duplicate_detector.have_duplicate_content(page):
             continue
 
-        # save content to history
-        duplicate_detector.save_content(parsed_content)
+        # save page to page repository
+        page_repository.save_page(page)
 
-        # TODO: save page to page repository
+        # extract and filter links
+        links = url_filter.filter(html_parser.extract_links(page))
 
-        # extract links
-        links = html_parser.extract_links(url, html_content)
-
-        # process links
+        # add links to the frontier
         for link in links:
-            process_url(link)
+            if not duplicate_detector.is_duplicate_url(link):
+                url_frontier.add(link)
 
 
 if __name__ == '__main__':
-    initiate_url_frontier(sys.argv[1])
+    url_frontier.initialize(SEED_URLS_FILE_PATH)
+    url_filter.initialize_domain_filters(DOMAIN_FILTERS_FILE_PATH)
+
+    page_repository.start()
 
     crawl()
+
+    page_repository.finish()
