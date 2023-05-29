@@ -59,7 +59,7 @@ def extract_links(page: Page) -> list[str]:
 
     Args:
         page (Page): The page.
-            It should contain an initialized URL and HTML content.
+            It should contain an initialized HTML content.
 
     Returns:
         list[str]: The extracted links.
@@ -78,7 +78,6 @@ def _normalize_link(base_page: Page, link: str) -> str:
 
     Args:
         base_page (Page): The base page.
-            It should contain an initialized URL.
         link (str): The link.
 
     Returns:

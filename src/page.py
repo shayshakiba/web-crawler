@@ -6,5 +6,5 @@ from html_parser import ParsedContent
 @dataclass
 class Page:
     url: str
-    html: str
-    parsed_content: ParsedContent
+    html: str | None = None
+    parsed_content: ParsedContent | None = None

@@ -13,7 +13,6 @@ def have_duplicate_url(page: Page) -> bool:
 
     Args:
         page (Page): The page.
-            It should contain an initialized URL.
 
     Returns:
         bool: True if the URL is a duplicate.

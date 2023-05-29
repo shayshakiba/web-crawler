@@ -16,7 +16,6 @@ def fetch(page: Page) -> str | None:
 
     Args:
         page (Page): The page.
-            It should contain an initialized URL.
 
     Returns:
         str | None: The HTML content.
@@ -40,7 +39,6 @@ def _check_content_type(page: Page) -> bool:
 
     Args:
         page (Page): The page.
-            It should contain an initialized URL.
 
     Returns:
         bool: True if the content type is 'text/html'.
