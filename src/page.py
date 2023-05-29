@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from html_parser import ParsedContent
+from parsed_content import ParsedContent
 
 
 @dataclass

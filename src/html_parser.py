@@ -2,15 +2,12 @@
 
 
 import logging
-from typing import NamedTuple
 from urllib.parse import urldefrag, urljoin, urlparse
 
 from bs4 import BeautifulSoup
 
 from page import Page
-
-
-ParsedContent = NamedTuple('ParsedContent', [('title', str), ('body', str)])
+from parsed_content import ParsedContent
 
 
 logger = logging.getLogger('html parser')
