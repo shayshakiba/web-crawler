@@ -7,7 +7,7 @@ import zlib
 from page import Page
 
 
-PAGE_REPOSITORY_FILE_PATH = 'data/page_repository.xml'
+PAGE_REPOSITORY_FILE_PATH = 'out/page_repository.xml'
 
 PAGE_LIMIT = 1000
 

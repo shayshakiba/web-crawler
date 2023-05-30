@@ -13,7 +13,7 @@ from page import Page
 SEED_URLS_FILE_PATH = 'data/seed_urls.txt'
 DOMAIN_FILTERS_FILE_PATH = 'data/domain_filters.txt'
 
-LOG_FILE_PATH = 'data/log.txt'
+LOG_FILE_PATH = 'out/log.txt'
 LOG_LEVEL = logging.INFO
 
 
