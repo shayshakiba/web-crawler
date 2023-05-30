@@ -1,5 +1,6 @@
 import logging
 
+import domain_filters
 import duplicate_detector
 import html_fetcher
 import html_parser
@@ -20,7 +21,7 @@ logging.basicConfig(level=LOG_LEVEL, filename=LOG_FILE_PATH, filemode='w')
 
 
 def crawl():
-    while page_repository.has_capacity() and not url_frontier.empty():
+    while page_repository.have_capacity() and not url_frontier.empty():
         url = url_frontier.pop()
         page = Page(url)
 
@@ -46,7 +47,7 @@ def crawl():
         page_repository.save_page(page)
 
         # extract and filter links
-        links = url_filter.filter(html_parser.extract_links(page))
+        links = url_filter.filter_urls(html_parser.extract_links(page))
 
         # add links to the frontier
         for link in links:
@@ -56,7 +57,7 @@ def crawl():
 
 if __name__ == '__main__':
     url_frontier.initialize(SEED_URLS_FILE_PATH)
-    url_filter.initialize_domain_filters(DOMAIN_FILTERS_FILE_PATH)
+    domain_filters.initialize(DOMAIN_FILTERS_FILE_PATH)
 
     page_repository.start()
 

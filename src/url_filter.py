@@ -6,51 +6,61 @@ from urllib.robotparser import RobotFileParser
 
 import tldextract
 
-
-_domain_filters: set[str] = set()
-_no_domain_filter = False
-
-_robot_filters: dict[str, RobotFileParser] = dict()
+import domain_filters
+import robot_filters
 
 
-def initialize_domain_filters(file_path: str) -> None:
-    global _no_domain_filter
-
-    with open(file_path, 'r') as input_file:
-        for line in input_file:
-            domain = line.strip()
-            _domain_filters.add(domain)
-
-    if len(_domain_filters) == 0:
-        _no_domain_filter = True
-
-
-def filter(urls: list[str]) -> list[str]:
+def filter_urls(urls: list[str]) -> list[str]:
+    """Filter URLs based on domain and robots.txt filters"""
     return list(filter(_check_url, urls))
 
 
 def _check_url(url: str) -> bool:
+    """Check the URL according to domain and robots.txt filters.
+
+    Args:
+        url (str): The URL.
+
+    Returns:
+        bool: True if the URL passes through the filters.
+    """
     return _check_domain_filters(url) and _check_robot_filters(url)
 
 
 def _check_domain_filters(url: str) -> bool:
+    """Check the URL according to domain filters.
+
+    Args:
+        url (str): The URL.
+
+    Returns:
+        bool: True if the URL passes through the domain filters.
+    """
     extracted_url = tldextract.extract(url)
     domain = '.'.join(extracted_url)
     base_domain = extracted_url.registered_domain
 
-    if _no_domain_filter:
+    if domain_filters.empty():
         return True
 
-    return domain in _domain_filters or base_domain in _domain_filters
+    return domain_filters.contains(domain) or domain_filters.contains(base_domain)
 
 
 def _check_robot_filters(url: str) -> bool:
+    """Check the URL according to the robot filters.
+
+    Args:
+        url (str): The URL.
+
+    Returns:
+        bool: True if the URL passes through the robot filters.
+    """
     domain = '.'.join(tldextract.extract(url))
 
-    if domain not in _robot_filters:
-        _robot_filters[domain] = _get_robot(url)
+    if not robot_filters.contains(domain):
+        robot_filters.add(domain, _get_robot_parser(url))
 
-    robot_parser = _robot_filters[domain]
+    robot_parser = robot_filters.get_robot_parser(domain)
 
     if robot_parser is None:
         return True
@@ -58,7 +68,15 @@ def _check_robot_filters(url: str) -> bool:
     return robot_parser.can_fetch('*', url)
 
 
-def _get_robot(url: str) -> RobotFileParser:
+def _get_robot_parser(url: str) -> RobotFileParser:
+    """Get a RobotFileParser for given URL.
+
+    Args:
+        url (str): The URL.
+
+    Returns:
+        RobotFileParser: The RobotFileParser object.
+    """
     robot_file_url = _get_robot_file_url(url)
 
     try:
@@ -71,4 +89,12 @@ def _get_robot(url: str) -> RobotFileParser:
 
 
 def _get_robot_file_url(url: str) -> str:
+    """Get the robots.txt URL based on the given URL.
+
+    Args:
+        url (str): The URL.
+
+    Returns:
+        str: The robots.txt URL.
+    """
     return urlparse(url)._replace(path='robots.txt', params='', query='', fragment='').geturl()

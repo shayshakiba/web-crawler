@@ -1,6 +1,7 @@
 """A component for storing discovered URLs.
 
-This module acts as a singleton resource."""
+This module acts as a singleton resource.
+"""
 
 
 _url_history: set[str] = set()
