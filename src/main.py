@@ -54,6 +54,8 @@ def crawl():
             if not duplicate_detector.is_duplicate_url(link):
                 url_frontier.add(link)
 
+    logging.info(f'Crawled {page_repository.page_count} pages.')
+
 
 if __name__ == '__main__':
     url_frontier.initialize(SEED_URLS_FILE_PATH)

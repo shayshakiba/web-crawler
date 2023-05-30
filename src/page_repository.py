@@ -77,10 +77,11 @@ def _save_page_to_xml(page: Page) -> None:
 
         output_file.write(f'<url>{page.url}</url>\n')
 
-        output_file.write(f'<title>{page.parsed_content.title}</title>\n')
+        compressed_title = zlib.compress(page.parsed_content.title.encode())
+        output_file.write(f'<title><![CDATA[{compressed_title}]]></title>\n')
 
         compressed_body = zlib.compress(page.parsed_content.body.encode())
-        output_file.write(f'<body>{compressed_body}</body>\n')
+        output_file.write(f'<body><![CDATA[{compressed_body}]]></body>\n')
 
         output_file.write('</page>\n')
 
