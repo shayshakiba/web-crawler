@@ -34,21 +34,7 @@ def parse(page: Page) -> ParsedContent | None:
 
         return None
 
-    return ParsedContent(_remove_redundant_whitespace(title.get_text()),
-                         _remove_redundant_whitespace(body.get_text()))
-
-
-def _remove_redundant_whitespace(text: str) -> str:
-    """Remove redundant whitespace from the text.
-
-    Args:
-        text (str): The text.
-
-    Returns:
-        str: The processed text.
-    """
-    return '\n'.join([' '.join(stripped.split()) for line in text.splitlines()
-                      if (stripped := line.strip())])
+    return ParsedContent(title.get_text(), body.get_text())
 
 
 def extract_links(page: Page) -> list[str]:
