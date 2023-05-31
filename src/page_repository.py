@@ -32,7 +32,7 @@ def start() -> None:
 
     This function should be called before starting to use the page repository.
     """
-    _open_xml()
+    _initialize_xml()
 
 
 def save_page(page: Page) -> None:
@@ -58,7 +58,7 @@ def finish() -> None:
     _close_xml()
 
 
-def _open_xml() -> None:
+def _initialize_xml() -> None:
     """Initialize the XML file and insert the xml opening tag."""
     with open(PAGE_REPOSITORY_FILE_PATH, 'w') as output_file:
         output_file.write('<xml>\n')
@@ -67,21 +67,21 @@ def _open_xml() -> None:
 def _save_page_to_xml(page: Page) -> None:
     """Save the page to the XML file.
 
-    This function saves the URL, title, and compressed body of the page.
+    This function saves the URL, title, and body of the page.
 
     Args:
         page (Page): The page.
     """
     with open(PAGE_REPOSITORY_FILE_PATH, 'a') as output_file:
-        output_file.write(f'<page id={page_count + 1}>\n')
+        output_file.write(f'<page id="{page_count + 1}">\n')
 
         output_file.write(f'<url>{page.url}</url>\n')
 
-        compressed_title = zlib.compress(page.parsed_content.title.encode())
-        output_file.write(f'<title><![CDATA[{compressed_title}]]></title>\n')
+        encoded_title = page.parsed_content.title.encode()
+        output_file.write(f'<title>{encoded_title.hex()}</title>\n')
 
         compressed_body = zlib.compress(page.parsed_content.body.encode())
-        output_file.write(f'<body><![CDATA[{compressed_body}]]></body>\n')
+        output_file.write(f'<body>{compressed_body.hex()}</body>\n')
 
         output_file.write('</page>\n')
 
