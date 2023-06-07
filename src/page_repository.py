@@ -75,7 +75,8 @@ def _save_page_to_xml(page: Page) -> None:
     with open(PAGE_REPOSITORY_FILE_PATH, 'a') as output_file:
         output_file.write(f'<page id="{page_count + 1}">\n')
 
-        output_file.write(f'<url>{page.url}</url>\n')
+        encoded_url = page.url.encode()
+        output_file.write(f'<url>{encoded_url.hex()}</url>\n')
 
         encoded_title = page.parsed_content.title.encode()
         output_file.write(f'<title>{encoded_title.hex()}</title>\n')
