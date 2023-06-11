@@ -1,6 +1,6 @@
 # Web Crawler
 
-A single-threaded web crawler for HTML web pages.
+A single-threaded web crawler.
 
 <img width="3207" alt="Web Crawler Structure" src="https://github.com/shayshakiba/web-crawler/assets/70333359/32bfb122-f476-4f56-b8ba-0239b121fd3b">
 
