@@ -33,7 +33,15 @@ def parse(page: Page) -> ParsedContent | None:
 
         return None
 
-    return ParsedContent(title.get_text(), body.get_text())
+    title_text = title.get_text().strip()
+    body_text = body.get_text().strip()
+
+    if not title_text or not body_text:
+        logger.error(f"'{page.url}' can't be parsed.")
+
+        return None
+
+    return ParsedContent(title_text, body_text)
 
 
 def extract_links(page: Page) -> list[str]:
