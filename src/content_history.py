@@ -1,6 +1,6 @@
 """A component for storing discovered content.
 
-This module acts as a singleton resource which stores the hash values of the visited content.
+This module acts as a singleton resource.
 """
 
 
