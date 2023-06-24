@@ -68,7 +68,7 @@ def _check_robot_filters(url: str) -> bool:
     return robot_parser.can_fetch('*', url)
 
 
-def _get_robot_parser(url: str) -> RobotFileParser:
+def _get_robot_parser(url: str) -> RobotFileParser | None:
     """Get a RobotFileParser for given URL.
 
     Args:

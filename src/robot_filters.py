@@ -7,10 +7,10 @@ This module acts as a singleton resource.
 from urllib.robotparser import RobotFileParser
 
 
-_robot_filters: dict[str, RobotFileParser] = dict()
+_robot_filters: dict[str, RobotFileParser | None] = dict()
 
 
-def add(domain: str, robot_parser: RobotFileParser) -> None:
+def add(domain: str, robot_parser: RobotFileParser | None) -> None:
     _robot_filters[domain] = robot_parser
 
 
