@@ -1,19 +1,14 @@
 import logging
 
-import domain_filters
-import duplicate_detector
-import html_fetcher
-import html_parser
-import page_repository
-import url_filter
-import url_frontier
-from page import Page
+from webcrawler import (domain_filters, duplicate_detector, html_fetcher,
+                        html_parser, page_repository, url_filter, url_frontier)
+from webcrawler.page import Page
 
 
 SEED_URLS_FILE_PATH = 'data/seed_urls.txt'
 DOMAIN_FILTERS_FILE_PATH = 'data/domain_filters.txt'
 
-LOG_FILE_PATH = 'out/log.txt'
+LOG_FILE_PATH = 'data/log.txt'
 LOG_LEVEL = logging.INFO
 
 
@@ -57,7 +52,7 @@ def crawl():
     print(f'Crawled {page_repository.page_count} pages.')
 
 
-if __name__ == '__main__':
+def run():
     url_frontier.initialize(SEED_URLS_FILE_PATH)
     domain_filters.initialize(DOMAIN_FILTERS_FILE_PATH)
 

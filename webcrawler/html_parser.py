@@ -6,7 +6,7 @@ from urllib.parse import urldefrag, urljoin, urlparse
 
 from bs4 import BeautifulSoup
 
-from page import Page, ParsedContent
+from webcrawler.page import Page, ParsedContent
 
 
 logger = logging.getLogger('html parser')

@@ -6,8 +6,7 @@ from urllib.robotparser import RobotFileParser
 
 import tldextract
 
-import domain_filters
-import robot_filters
+from webcrawler import domain_filters, robot_filters
 
 
 def filter_urls(urls: list[str]) -> list[str]:

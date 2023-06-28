@@ -1,9 +1,8 @@
 """Handling history and duplicate detection for URLs and content."""
 
 
-import content_history
-import url_history
-from page import Page
+from webcrawler import content_history, url_history
+from webcrawler.page import Page
 
 
 def is_duplicate_url(url: str) -> bool:

@@ -5,7 +5,7 @@ import logging
 
 import requests
 
-from page import Page
+from webcrawler.page import Page
 
 
 logger = logging.getLogger('html fetcher')
