@@ -12,4 +12,3 @@ class Page:
     url: str
     html: str | None = None
     parsed_content: ParsedContent | None = None
- 
