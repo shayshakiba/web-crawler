@@ -14,4 +14,4 @@ Then, set the seed URLs, domain filters, and page limit:
   * Domain filters can optionally be specified to limit the crawling to a certain group of domains. Each line in `data/domain_filters.txt` have to be a domain name (e.g. `docs.python.org` or `python.org`).
   * The number of pages to be crawled can be specified by configuring `PAGE_LIMIT` located in `src/page_repository.py`.
 
-Finally, run the program: `python src/main.py`
+Finally, run the program: `python run.py`
